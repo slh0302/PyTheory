@@ -16,6 +16,11 @@ class baseFunction:
         self.F_v = torch.Tensor([0.0]).double()
         self.g_v = torch.Tensor([0.0] * self.n).double()
         self.var_x = torch.Tensor([0.0] * self.n).double()
+        if self.Gpu:
+            self.F_v = self.F_v.cuda()
+            self.g_v = self.g_v.cuda()
+            self.var_x = self.var_x.cuda()
+
 
     def F(self, var_x):
         return self._function(self._check_value(var_x))
@@ -37,7 +42,7 @@ class baseFunction:
                 return self.var_x
             torch_var_x = var_x.clone()
 
-        if self.Gpu and not torch_var_x.is_cuda():
+        if self.Gpu and not torch_var_x.is_cuda:
             torch_var_x = torch_var_x.cuda()
 
         return torch_var_x

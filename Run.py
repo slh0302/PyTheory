@@ -30,7 +30,8 @@ start_point = torch.Tensor(np.array([0, 10, 20])).double()
 """
 eps = 1e-8
 max_iter = 10
-dn.optimize(start_point, eps, max_iter, JinTui_step=1e-3)
+JinTui_step = None
+dn.optimize(start_point, eps, max_iter, JinTui_step=JinTui_step, amax=10)
 
 
 

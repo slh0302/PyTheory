@@ -12,10 +12,11 @@ class f_genpowsg(baseFunction):
     def _function(self, var_list):
         F = 0
         self.var_x = var_list
-        for i in range(0, self.m):
-            if i == 0:
-                F = F + (var_list[i] - 1).pow(2)
-                continue
-            F = F + 100 * (var_list[i] - var_list[i-1].pow(3)).pow(2)
+        for i in range(1, int(self.m/2) - 1):
+            f1 = var_list[2*i - 1 - 1] + 10 * var_list[2*i - 1]
+            f2 = var_list[2*i + 1 - 1] - var_list[2*i + 2 - 1]
+            f3 = var_list[2*i - 1] - 2* var_list[2*i + 1 - 1]
+            f4 = var_list[2*i - 1 - 1] - var_list[2*i + 2 - 1]
+            F = F + f1.pow(2) + 5 * f2.pow(2) + f3.pow(4) + 10 * f4.pow(4)
         self.F_v = F
         return F

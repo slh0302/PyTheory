@@ -2,6 +2,7 @@
 # @Author  : Su LiHui
 # @Time    : 2018/5/11 下午12:25
 
+import torch
 import math
 from basic.baseOptimizer.baseOptimizer import baseOptimizer
 
@@ -33,11 +34,11 @@ class EGCG(baseOptimizer):
             return dk
 
         sk_1 = dk_1
-        delta = self.sqrt_eta / math.sqrt(sk_1.dot(sk_1))
-        gama = self.sqrt_eta / math.sqrt(gk_1.dot(dk_1))
+        delta = self.sqrt_eta / torch.sqrt(sk_1.dot(sk_1))
+        gama = self.sqrt_eta / torch.sqrt(gk_1.dot(gk_1))
         if self.app_hess:
             Hk = f_value(xk + delta * sk_1) - gk
-            Hk2 = f_value(xk + gama * sk_1) - gk
+            Hk2 = f_value(xk + gama * gk) - gk
             tk = sk_1.dot(Hk) / delta
             uk = gk.dot(Hk) / delta
             vk = gk.dot(Hk2) / gama

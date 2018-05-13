@@ -4,6 +4,7 @@
 import torch
 import numpy as np
 from question.S303 import f_S303
+from Optimizer.FR import FR
 from Optimizer.PRP import PRP
 from Optimizer.GBB import GBB
 
@@ -18,7 +19,7 @@ JinTui_step = 1e-12
 """
 函数初始化
 """
-n_var = 1000
+n_var = 10000
 m_rx = n_var
 qs = f_S303(n_var, m_rx)
 
@@ -40,6 +41,6 @@ start_point = torch.Tensor(np.array(sx)).double()
     else:
         return Armijo_Goldstein(param, self.Function)
 """
-opt = PRP(qs, "stwlf", [0.95, 0.05])
+opt = FR(qs, "stwlf", [0.95, 0.05], required_norm=True)
 
 opt.optimize(start_point, eps, max_iter, JinTui_step=JinTui_step)

@@ -45,6 +45,7 @@ class baselineSearch:
             print("Jintui interval = ", interval)
             # info['feval'] = info['feval'] + JT_info['feval']
             info['iter'] = info['iter'] + JT_info['iter']
+            print(info)
         else:
             if amax == None:
                 print("Jin Tui or amax must choose one.")
@@ -63,6 +64,7 @@ class baselineSearch:
             # info['feval'] = info['feval'] + 1
             # info['feval'] = info['feval'] + glod_info['feval'] + 1
             info['iter'] = info['iter'] + glod_info['iter']
+            print(info)
             return alph, f_phi, g_phi, info
 
         # 当前点的函数值和下一点的函数值
@@ -228,7 +230,9 @@ class baselineSearch:
             # objectf.append(f((lower+upper)/2))
             if max_iter != None and info['iter'] > max_iter:
                 print("Reach the max iter in 0.618 ELS.")
+                print(info)
                 break
+        print(info)
         return (temp2+temp1)/2, f((temp2+temp1)/2), info
 
     def _zoom(self, a_lo, a_hi, phi_lo, phi_hi, derphi_lo, phi, derphi,
@@ -344,7 +348,13 @@ class baselineSearch:
         except ArithmeticError:
             print("quad Math cubic error, using mid value")
             return (a+b)/2
-        if not np.isfinite(xmin.data.numpy()):
+
+        try:
+            tmp = xmin.data.numpy()
+        except Exception:
+            tmp = xmin.cpu().data.numpy()
+
+        if not np.isfinite(tmp):
             print("quad Math infinite error, using mid value")
             return (a+b)/2
         return xmin
@@ -380,7 +390,12 @@ class baselineSearch:
             print("Cube Math cubic error, using mid value")
             return None
             # return (a+b)/2
-        if not np.isfinite(xmin.data.numpy()):
+        try:
+            tmp = xmin.data.numpy()
+        except Exception:
+            tmp = xmin.cpu().data.numpy()
+
+        if not np.isfinite(tmp):
             print("Cube Math infinite error, using mid value")
             return None
             # return (a+b)/2
