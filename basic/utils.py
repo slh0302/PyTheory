@@ -8,7 +8,9 @@ from Optimizer.DY import DY
 from Optimizer.EGCG import EGCG
 from Optimizer.PRP_plus import PRP_plus
 from Optimizer.PRP import PRP
-
+"""
+初始化一些基础优化器和函数，使其可以和字符串进行对应
+"""
 def InitOptimize(qs, f_name, param, line_search, **kwargs):
     if f_name == "DY":
         return DY(qs, line_search, param)
@@ -38,12 +40,6 @@ from question.genpowsg import f_genpowsg
 from question.gensinev import f_gensinev
 
 def InitFunction(f_name, n_var, m_rx):
-    # s_p = [0.9 for _ in range(n_var)]
-
-    # s_p = [ -1 for _ in range(n_var) ]
-    # for i in range(0, n_var, 2):
-    #     s_p[i] = s_p[i] + 4
-    # s_p[0] = 4.712389
     if f_name == "gencube":
         s_p = [0.9 for _ in range(n_var)]
         return f_gencube(n_var, m_rx), s_p

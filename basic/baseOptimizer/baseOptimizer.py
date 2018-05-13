@@ -6,8 +6,15 @@
 import datetime
 from LineSearch.lineSearch import *
 from basic.baseFunction.baseFunction import baseFunction
-
-
+"""
+基础优化器——所有优化算法函数的父类
+参数设置：
+    参数: 
+        question: 问题类
+        line_search: 线搜索方法
+        line_search_param：线搜索参数  param = [rho, sigma]
+        required_norm： 是否对下降方向进行归一化
+"""
 class baseOptimizer:
     def __init__(self, question, line_search, line_search_param, required_norm=False):
         assert isinstance(question, baseFunction)

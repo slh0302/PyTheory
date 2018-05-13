@@ -5,7 +5,20 @@
 import torch
 from basic.baseLineSearch.baseLineSearch import baselineSearch
 
+"""
+线搜索算法：
+    ELS: 精确线搜索
+    wolfe： wolfe准则非精确算法
+    st_wolfe：强wolfe准则的非精确算法
+    Armijo_Goldstein：Armijo_Goldstein准则的非精确算法
+    nonmonotone： 非单调算法的非精确算法，仅在GBB算法中使用
+参数设置：
+    所有参数设置： 
+        param：[0]: sigma, [1]: rho
+        function: question模块中的算法类具体可以使用的算法见question        
+"""
 class ELS(baselineSearch):
+
     def __init__(self, param, function):
         super().__init__(param, function, True)
 
@@ -29,8 +42,8 @@ class wolfe(baselineSearch):
         derphi0 = kwargs['derphi0']
         derphi_aj = kwargs['derphi_aj']
 
-        c1 = self.param[0]
-        if derphi_aj >= c1 * derphi0:
+        sigma = self.param[1]
+        if derphi_aj >= sigma * derphi0:
             return True
         else:
             return False
@@ -53,8 +66,8 @@ class st_wolfe(baselineSearch):
         derphi0 = kwargs['derphi0']
         derphi_aj = kwargs['derphi_aj']
 
-        c1 = self.param[0]
-        if abs(derphi_aj) <= -c1 * derphi0:
+        sigma = self.param[0]
+        if abs(derphi_aj) <= -sigma * derphi0:
             return True
         else:
             return False
@@ -73,13 +86,12 @@ class Armijo_Goldstein(baselineSearch):
         super().__init__(param, function, False)
 
     def _constraint(self, **kwargs):
-        #  xk, xk_1, phixk_1, derphi0, alph
         xk = kwargs['phi0']
         xk_1 = kwargs['phi_aj']
         alph = kwargs['a_j']
         derphi0 = kwargs['derphi0']
 
-        rho_gold = self.param[1] #rho是小得那个值
+        rho_gold = self.param[0] #rho是小得那个值
         if xk >= xk_1 + (1 - rho_gold) * alph * derphi0:
             return True
         else:

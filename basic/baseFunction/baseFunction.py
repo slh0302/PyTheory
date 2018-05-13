@@ -3,7 +3,14 @@
 # @Time    : 2018/5/6 下午7:30
 import torch
 from torch.autograd import grad, Variable
-
+"""
+基础函数类——所有问题函数的父类
+参数设置：
+    参数: 
+        n_v: x变量的规模
+        m_rx: 循环的规模
+        need_hessian: 是否需要计算海森矩阵，默认不使用
+"""
 class baseFunction:
     def __init__(self, n_var, m_rx, need_hessian=True, Gpu=False):
         self.n = n_var

@@ -7,10 +7,17 @@ import math
 import numpy.random as rd
 import numpy as np
 from basic.baseFunction.baseFunction import baseFunction
-
+"""
+基础线搜索——所有线搜索算法函数的父类
+参数设置：
+    参数: 
+        param:  参数设置 = [rho, sigma]
+        function: 问题设置
+        extract：是否精确线搜索
+"""
 class baselineSearch:
     def __init__(self, param, function, extract):
-        self.param = param # [cita, rho]
+        self.param = param # param = [rho, sigma]
         assert isinstance(function, baseFunction)
         self.function = function
         self.extract = extract
@@ -88,8 +95,8 @@ class baselineSearch:
         phi_a0 = l_value
         derphi_a0 = derphi(phi_a0)
         extra_condition = lambda alpha, phi: True
-        c1 = self.param[1]  # rho
-        c2 = self.param[0]  # cita
+        c1 = self.param[0]  # rho
+        c2 = self.param[1]  # sigma
         zoom_info = {}
         zoom_info['feval'] = 0
         zoom_info['iter'] = 0
@@ -226,13 +233,9 @@ class baselineSearch:
                 lower = temp1
             error = abs(lower - upper)
 
-            # vals.append((lower+upper)/2)
-            # objectf.append(f((lower+upper)/2))
             if max_iter != None and info['iter'] > max_iter:
                 print("Reach the max iter in 0.618 ELS.")
-                print(info)
                 break
-        print(info)
         return (temp2+temp1)/2, f((temp2+temp1)/2), info
 
     def _zoom(self, a_lo, a_hi, phi_lo, phi_hi, derphi_lo, phi, derphi,
